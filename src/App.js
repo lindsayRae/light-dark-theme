@@ -1,25 +1,83 @@
-import logo from './logo.svg';
 import './App.css';
+import { ThemeProvider, useTheme } from './ThemeContext';
+import Switch from './Switch';
+
+const Title = ({ children }) => {
+  const { theme } = useTheme();
+  return (
+    <h2
+      style={{
+        color: theme === 'light' ? 'black' : 'white',
+      }}
+    >
+      {children}
+    </h2>
+  );
+};
+
+const Paragraph = ({ children }) => {
+  const { theme } = useTheme();
+  return (
+    <p
+      style={{
+        color: theme === 'light' ? 'black' : 'white',
+      }}
+    >
+      {children}
+    </p>
+  );
+};
+
+const Content = () => {
+  return (
+    <div>
+      <Paragraph>
+        One of the most common use cases for Context is to define a theme for
+        your application.
+      </Paragraph>
+    </div>
+  );
+};
+
+const Header = () => {
+  return (
+    <header>
+      <Title>Light Dark Theme Sample Project</Title>
+      <Switch />
+    </header>
+  );
+};
+
+const Page = () => {
+  return (
+    <div className='Page'>
+      <Title>React Context API</Title>
+      <Content />
+    </div>
+  );
+};
 
 function App() {
+  const { theme } = useTheme();
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      className='App'
+      style={{
+        backgroundColor: theme === 'light' ? 'white' : 'black',
+      }}
+    >
+      <Header />
+      <Page />
     </div>
   );
 }
 
-export default App;
+function Root() {
+  return (
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+}
+
+export default Root;
